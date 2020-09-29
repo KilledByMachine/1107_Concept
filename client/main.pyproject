@@ -1,0 +1,4 @@
+{
+    "files": ["resources/values/Colors.qml","Button_Controller.py","main.py","resources/values/colors.qml","resources/layouts/LoginPage.qml","resources/layouts/welcome.qml","resources/layouts/RegistrationPage.qml","resources/layouts/WelcomePage.qml","resources/layouts/authorization.qml"]
+}
+ 
