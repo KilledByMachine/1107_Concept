@@ -6,6 +6,10 @@
 #include <QDebug>
 #include <QTime>
 
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonParseError>
 
 
 class SocketTread : public QThread

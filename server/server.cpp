@@ -12,6 +12,7 @@ Server::Server(QObject *parent) :QTcpServer(parent)
   }
 
 
+
 }
 
 
