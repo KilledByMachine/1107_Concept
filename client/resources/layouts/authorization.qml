@@ -10,6 +10,7 @@ Window {
     title: qsTr("**Program name**")
 
     property color primary_color: "#2f2f2f"
+    property color secondary_color: "#ffc800"
     property color button_color: "#262626"
     property color button_text_color: "#b4b4b4"
 
@@ -24,7 +25,12 @@ Window {
             onClicked: {
                 registration_page.reset_fields()
                 login_page.reset_fields()
-                stack_view.pop()
+                if (stack_view.depth > 2){
+                    stack_view.pop(welcome_page)
+                }
+                else{
+                    stack_view.pop()
+                }
             }
         }
 
