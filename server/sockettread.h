@@ -18,10 +18,15 @@ class SocketTread : public QThread
 public:
   explicit SocketTread(int descriptor, QObject *parent = nullptr);
   ~SocketTread();
-  void run() ;
+  void run();
+signals:
+  void SendS(QString);
+  void sendQuery(QString);
+
 public slots:
   void onConnection();
   void onDisconnected();
+
 
 private:
   int socketDescriptor;

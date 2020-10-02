@@ -3,6 +3,7 @@
 SocketTread::SocketTread(int descriptor, QObject *parent)
     : QThread(parent), socketDescriptor(descriptor)
 {
+
 }
 
 SocketTread::~SocketTread() { delete socket;
@@ -27,9 +28,27 @@ void SocketTread::run()
 void SocketTread::onConnection()
 {
   //qDebug() << socket->readAll();
-
+  sleep(1);
   QString str = this->socket->readAll();
   qDebug() << str;
+  if (str == "send") {
+    qDebug() << "OFF";
+    emit SendS(QTime::currentTime().toString()+" -time. Call from other thread");
+    socket->disconnectFromHost();
+    QThread::currentThread()->quit();
+  }
+  if (str == "query") {
+    qDebug() << "query";
+    emit sendQuery(QTime::currentTime().toString()+" -time. Call Query");
+    socket->disconnectFromHost();
+    return;
+  }
+
+
+
+
+
+
   QJsonParseError sendingError;
   QJsonDocument jsonResponse =
       QJsonDocument::fromJson(str.toLatin1(), &sendingError);

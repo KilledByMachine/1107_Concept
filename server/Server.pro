@@ -19,7 +19,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         server.cpp \
-        sockettread.cpp
+        sockettread.cpp \
+        sqlthread.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -28,4 +29,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     server.h \
-    sockettread.h
+    sockettread.h \
+    sqlthread.h
