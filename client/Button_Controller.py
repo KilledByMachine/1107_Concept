@@ -20,7 +20,9 @@ class Button_Controller(QObject):
             json.dump(register_data, file)
 
         server_conection = ServerConnection()
-        server_answer: dict = json.loads(server_conection.send_data(json_data))
+        server_answer: dict = json.loads(server_conection.pool.apply(server_conection.send_data, (json_data,)))
+
+        print(server_answer)
         
         if server_answer["target"] == "reg":
             if server_answer["email"] == "ok" and server_answer["login"] == "ok":
@@ -34,10 +36,30 @@ class Button_Controller(QObject):
             else:
                 print(server_answer)
 
-    @Slot(str, str)
-    def login_button_complete(self, login, password):
+    @Slot(str, str, result=str)
+    def complete_logging(self, login, password) -> str:
         if login == "" or password == "":
             return
 
-        login_data = {"login" : login, "password" : password}
-        print(json.dumps(login_data))
+        login_data = {"target": "log", "login" : login, "password" : password}
+        json_data = json.dumps(login_data).encode("utf-8")
+
+        with open("/home/frotos/Desktop/data.json", "w+") as file:
+            json.dump(login_data, file)
+
+        server_conection = ServerConnection()
+        server_answer: dict = json.loads(server_conection.pool.apply(server_conection.send_data, (json_data,)))
+
+        print(server_answer)
+
+        if server_answer["target"] == "log":
+            if server_answer["login"] == "ok" and server_answer["pass"] == "ok":
+                return "OK"
+            elif server_answer["login"] == "bad" and server_answer["pass"] == "bad":
+                return "both"
+            elif server_answer["login"] == "bad":
+                return "login"
+            elif server_answer["pass"] == "bad":
+                return "pass"
+            else:
+                print(server_answer)

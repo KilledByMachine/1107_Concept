@@ -8,7 +8,7 @@ ColumnLayout {
 
     function reset_fields() {
         logging_login_field.text = ""
-        loggin_password_field.text = ""
+        logging_password_field.text = ""
     }
 
     ColumnLayout {
@@ -34,18 +34,48 @@ ColumnLayout {
             placeholderText: "Enter your login"
             selectByMouse: true
             width: parent.width / 2
+
+            Popup {
+                id: logging_login_popup
+
+                parent: logging_login_field
+                x: parent.width - width
+                y: parent.height - 2
+                width: parent.width
+                height: 18
+
+                background: RoundedErrorRectangle {
+                    id: logging_login_popup_rect
+                    error_text: "Username is incorrect"
+                }
+            }
         }
 
         Item {
             height: 10
         }
         TextField {
-            id: loggin_password_field
-            objectName: "loggin_password_field"
+            id: logging_password_field
+            objectName: "logging_password_field"
             placeholderText: "Enter your password"
             selectByMouse: true
             width: parent.width / 2
             echoMode: TextInput.Password
+
+            Popup {
+                id: logging_password_popup
+
+                parent: logging_password_field
+                x: parent.width - width
+                y: parent.height - 2
+                width: parent.width
+                height: 18
+
+                background: RoundedErrorRectangle {
+                    id: logging_password_popup_rect
+                    error_text: "Password is incorrect"
+                }
+            }
         }
 
         Item {
@@ -65,7 +95,23 @@ ColumnLayout {
                     button:button_color
                     buttonText: button_text_color
                 }
-                onClicked: button_controller.login_button_complete(logging_login_field.text, loggin_password_field.text)
+                onClicked: {
+                    var result = button_controller.complete_logging(logging_login_field.text, logging_password_field.text)
+                    if (result === "OK") {
+                        reset_fields();
+                        console.log("ALL OK")
+                    }
+                    else if (result === "both") {
+                        logging_login_popup.open()
+                        logging_password_popup.open()
+                    }
+                    else if (result === "login") {
+                        logging_login_popup.open()
+                    }
+                    else if (result === "pass") {
+                        logging_password_popup.open()
+                    }
+                }
             }
         }
     }
