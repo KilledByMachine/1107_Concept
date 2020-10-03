@@ -20,21 +20,23 @@ class Button_Controller(QObject):
             json.dump(register_data, file)
 
         server_conection = ServerConnection()
-        server_answer: dict = json.loads(server_conection.pool.apply(server_conection.send_data, (json_data,)))
+        server_answer = server_conection.pool.apply_async(server_conection.send_data, (json_data,))
+        if server_answer.ready():
+            answer_data: dict = json.loads(server_answer.get())
 
-        print(server_answer)
-        
-        if server_answer["target"] == "reg":
-            if server_answer["email"] == "ok" and server_answer["login"] == "ok":
-                return "OK"
-            elif server_answer["email"] == "bad" and server_answer["login"] == "bad":
-                return "both"
-            elif server_answer["email"] == "bad":
-                return "email"
-            elif server_answer["login"] == "bad":
-                return "login"
-            else:
-                print(server_answer)
+            print(answer_data)
+            
+            if answer_data["target"] == "reg":
+                if answer_data["email"] == "ok" and answer_data["login"] == "ok":
+                    return "OK"
+                elif answer_data["email"] == "bad" and answer_data["login"] == "bad":
+                    return "both"
+                elif answer_data["email"] == "bad":
+                    return "email"
+                elif answer_data["login"] == "bad":
+                    return "login"
+                else:
+                    print(answer_data)
 
     @Slot(str, str, result=str)
     def complete_logging(self, login, password) -> str:
@@ -48,18 +50,20 @@ class Button_Controller(QObject):
             json.dump(login_data, file)
 
         server_conection = ServerConnection()
-        server_answer: dict = json.loads(server_conection.pool.apply(server_conection.send_data, (json_data,)))
+        server_answer = server_conection.pool.apply_async(server_conection.send_data, (json_data,))
+        if server_answer.ready():
+            answer_data: dict = json.loads(server_answer.get())
 
-        print(server_answer)
+            print(answer_data)
 
-        if server_answer["target"] == "log":
-            if server_answer["login"] == "ok" and server_answer["pass"] == "ok":
-                return "OK"
-            elif server_answer["login"] == "bad" and server_answer["pass"] == "bad":
-                return "both"
-            elif server_answer["login"] == "bad":
-                return "login"
-            elif server_answer["pass"] == "bad":
-                return "pass"
-            else:
-                print(server_answer)
+            if answer_data["target"] == "log":
+                if answer_data["login"] == "ok" and answer_data["pass"] == "ok":
+                    return "OK"
+                elif answer_data["login"] == "bad" and answer_data["pass"] == "bad":
+                    return "both"
+                elif answer_data["login"] == "bad":
+                    return "login"
+                elif answer_data["pass"] == "bad":
+                    return "pass"
+                else:
+                    print(answer_data)
