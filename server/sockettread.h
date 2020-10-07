@@ -17,8 +17,8 @@ class SocketTread : public QThread
   Q_OBJECT
 public:
   explicit SocketTread(int descriptor, QObject *parent = nullptr);
-  ~SocketTread();
-  void run();
+  ~SocketTread() override;
+  void run() override;
 signals:
   void SendS(QString);
   void sendQuery(QString);
@@ -26,6 +26,7 @@ signals:
 public slots:
   void onConnection();
   void onDisconnected();
+  void resume(QString);
 
 
 private:

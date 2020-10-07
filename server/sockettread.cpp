@@ -38,8 +38,18 @@ void SocketTread::onConnection()
     QThread::currentThread()->quit();
   }
   if (str == "query") {
-    qDebug() << "query";
-    emit sendQuery(QTime::currentTime().toString()+" -time. Call Query");
+    emit sendQuery(QTime::currentTime().toString() + " MESS");
+    qDebug() << "RESUME query TIME::"<< QTime::currentTime();
+    socket->disconnectFromHost();
+    return;
+  }
+  if (str == "wait") {
+    int i = 0;
+    while (i < 30) {
+      i++;
+      qDebug() << i << "COunt in other thread";
+      sleep(1);
+    }
     socket->disconnectFromHost();
     return;
   }
@@ -123,4 +133,8 @@ void SocketTread::onDisconnected()
 {
   socket->close();
   quit();
+}
+
+
+void SocketTread::resume(QString s) { qDebug() << s << " ::: REQUEST ";
 }

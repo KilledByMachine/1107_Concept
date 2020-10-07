@@ -13,9 +13,11 @@ class SQLThread : public QThread
 public:
   explicit SQLThread(QObject *parent = nullptr);
   void run() override;
+signals:
+  void request(QString);
 public slots:
   void getSocketThread(SocketTread *thread);
-  void getQuery(QString s);
+  void getQuery(QString );
 };
 
 #endif // SQLTHREAD_H
