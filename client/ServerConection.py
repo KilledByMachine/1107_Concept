@@ -10,7 +10,11 @@ class ServerConnection:
         self.pool = ThreadPool(processes=1)
 
     def send_data(self, data: bytes) -> str:
-        self.client_sock.connect((SERVER_IP, SERVER_PORT))
+        try:
+            self.client_sock.connect((SERVER_IP, SERVER_PORT))
+        except:
+            return False
+
         self.client_sock.sendall(data)
         received_data = self.client_sock.recv(1024)
         self.client_sock.close()
