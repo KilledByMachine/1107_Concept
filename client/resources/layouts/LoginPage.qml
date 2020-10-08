@@ -11,6 +11,22 @@ ColumnLayout {
         logging_password_field.text = ""
     }
 
+    function complete_logginin(result) {
+        if (result === "OK") {
+            reset_fields();
+        }
+        else if (result === "both") {
+            logging_login_popup.open()
+            logging_password_popup.open()
+        }
+        else if (result === "login") {
+            logging_login_popup.open()
+        }
+        else if (result === "pass") {
+            logging_password_popup.open()
+        }
+    }
+
     ColumnLayout {
         Layout.fillHeight: true
         Layout.fillWidth: true
@@ -95,22 +111,13 @@ ColumnLayout {
                     button:button_color
                     buttonText: button_text_color
                 }
+
+                Component.onCompleted: function() {
+                    ButtonController.loginSignal.connect(complete_logginin);
+                }
+
                 onClicked: {
-                    var result = button_controller.complete_logging(logging_login_field.text, logging_password_field.text)
-                    if (result === "OK") {
-                        reset_fields();
-                        console.log("ALL OK")
-                    }
-                    else if (result === "both") {
-                        logging_login_popup.open()
-                        logging_password_popup.open()
-                    }
-                    else if (result === "login") {
-                        logging_login_popup.open()
-                    }
-                    else if (result === "pass") {
-                        logging_password_popup.open()
-                    }
+                    ButtonController.complete_logging(logging_login_field.text, logging_password_field.text)
                 }
             }
         }

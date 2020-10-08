@@ -13,6 +13,23 @@ ColumnLayout {
         register_pass_confirm_field.text = ""
     }
 
+    function complete_registration(result) {
+        if (result === "OK") {
+            reset_fields();
+            stack_view.push(login_page)
+        }
+        else if (result === "both") {
+            register_login_popup.open()
+            register_email_popup.open()
+        }
+        else if (result === "login") {
+            register_login_popup.open()
+        }
+        else if (result === "email") {
+            register_email_popup.open()
+        }
+    }
+
     ColumnLayout {
         Layout.fillHeight: true
         Layout.fillWidth: true
@@ -135,23 +152,14 @@ ColumnLayout {
                     button:button_color
                     buttonText: button_text_color
                 }
+
+                Component.onCompleted: function() {
+                    ButtonController.registerSignal.connect(complete_registration);
+                }
+
                 onClicked: {
-                    var result = button_controller.complete_registration(register_login_field.text, register_email_field.text,
-                                                                   register_pass_field.text, register_pass_confirm_field.text)
-                    if (result === "OK") {
-                        reset_fields();
-                        stack_view.push(login_page)
-                    }
-                    else if (result === "both") {
-                        register_login_popup.open()
-                        register_email_popup.open()
-                    }
-                    else if (result === "login") {
-                        register_login_popup.open()
-                    }
-                    else if (result === "email") {
-                        register_email_popup.open()
-                    }
+                    ButtonController.complete_registration(register_login_field.text, register_email_field.text,
+                                                             register_pass_field.text, register_pass_confirm_field.text)
                 }
             }
         }

@@ -3,10 +3,9 @@ import os
 
 from PySide2.QtGui import QGuiApplication
 from PySide2.QtQml import QQmlApplicationEngine
-from PySide2.QtCore import QObject, Slot
+from PySide2.QtCore import Slot, QObject
 
 from Button_Controller import Button_Controller
-
 
 if __name__ == "__main__":
     app = QGuiApplication(sys.argv)
@@ -14,7 +13,9 @@ if __name__ == "__main__":
     button_controller = Button_Controller()
 
     engine = QQmlApplicationEngine()
-    engine.rootContext().setContextProperty("button_controller", button_controller)
+    context = engine.rootContext()
+
+    context.setContextProperty("ButtonController", button_controller)
     engine.load(os.path.join(os.path.dirname(__file__) + os.sep + "resources" + os.sep + "layouts", "authorization.qml"))
 
     if not engine.rootObjects():
