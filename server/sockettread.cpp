@@ -24,8 +24,6 @@ void SocketTread::run()
 
 void SocketTread::onConnection()
 {
-  //qDebug() << socket->readAll();
-  //sleep(1);
   QString request = this->socket->readAll();
   qDebug() << request;
   //початок різних провірок, серед них робота з БД, пока лишу
@@ -147,7 +145,7 @@ void SocketTread::loginning(QJsonObject jsonObject)
     regReply.insert("pass", "bad");
 
   if (isGoodLog && isGoodPass)
-    regReply.insert("token", "apugndqhglshqpvsf"); //добавити людський рандом, занести в табл активних юзерів в сервері
+    regReply.insert("token", "apugndqhglshqpvsf"); //добавити людський рандом, занести в табл активних юзерів
   else
     regReply.insert("token", "");
 
