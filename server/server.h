@@ -25,6 +25,8 @@ public slots:
 
 private:
   QTcpServer * mTcpServer;
+
+  //active user table+token, map?
 };
 
 #endif // SERVER_H

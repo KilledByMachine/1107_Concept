@@ -18,6 +18,7 @@ signals:
 public slots:
   void getSocketThread(SocketTread *thread);
   void getQuery(QString );
+
 };
 
 #endif // SQLTHREAD_H

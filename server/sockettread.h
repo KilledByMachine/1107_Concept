@@ -28,10 +28,15 @@ public slots:
   void onDisconnected();
   void resume(QString);
 
+private:
+  void registration (QJsonObject);
+  void loginning    (QJsonObject);
 
 private:
   int socketDescriptor;
   QTcpSocket * socket;
+
+
 };
 
 #endif // SOCKETTREAD_H
