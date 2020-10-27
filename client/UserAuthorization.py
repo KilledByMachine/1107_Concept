@@ -14,21 +14,25 @@ class UserAuthorization:
 
     def register(self, register_data: bytes) -> str:
         server_conection = ServerConnection()
-        server_answer = server_conection.pool.apply_async(server_conection.send_data, (register_data,))
+        server_answer = server_conection.pool.apply_async(
+            server_conection.send_data, (register_data,)
+        )
         send_time = datetime.now()
 
         while not server_answer.ready():
-            if datetime.now().strftime("%H:%M:%S") == (send_time + timedelta(seconds=1)).strftime("%H:%M:%S"):
+            if datetime.now().strftime("%H:%M:%S") == (
+                send_time + timedelta(seconds=1)
+            ).strftime("%H:%M:%S"):
                 server_conection.client_sock.close()
                 return False
-            
+
             time.sleep(0.1)
 
         answer = ""
         received_data = server_answer.get()
         if received_data:
             answer_data: dict = json.loads(received_data)
-        
+
             if answer_data["target"] == "reg":
                 if answer_data["email"] == "ok" and answer_data["login"] == "ok":
                     answer = "OK"
@@ -47,14 +51,18 @@ class UserAuthorization:
 
     def login(self, login_data: bytes) -> str:
         server_conection = ServerConnection()
-        server_answer = server_conection.pool.apply_async(server_conection.send_data, (login_data,))
+        server_answer = server_conection.pool.apply_async(
+            server_conection.send_data, (login_data,)
+        )
         send_time = datetime.now()
 
         while not server_answer.ready():
-            if datetime.now().strftime("%H:%M:%S") == (send_time + timedelta(seconds=1)).strftime("%H:%M:%S"):
+            if datetime.now().strftime("%H:%M:%S") == (
+                send_time + timedelta(seconds=1)
+            ).strftime("%H:%M:%S"):
                 server_conection.client_sock.close()
                 return False
-            
+
             time.sleep(0.1)
 
         answer = ""

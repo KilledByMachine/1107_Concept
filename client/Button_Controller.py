@@ -22,7 +22,12 @@ class Button_Controller(QObject):
         if login == "" or email == "" or password == "":
             return
 
-        register_data = {"rarget": "reg", "login": login, "email": email, "password": password}
+        register_data = {
+            "rarget": "reg",
+            "login": login,
+            "email": email,
+            "password": password,
+        }
         json_data = json.dumps(register_data).encode("utf-8")
 
         with open("/home/frotos/Desktop/data.json", "w+") as file:
@@ -35,7 +40,7 @@ class Button_Controller(QObject):
         if login == "" or password == "":
             return
 
-        login_data = {"target": "log", "login" : login, "password" : password}
+        login_data = {"target": "log", "login": login, "password": password}
         json_data = json.dumps(login_data).encode("utf-8")
 
         with open("/home/frotos/Desktop/data.json", "w+") as file:
