@@ -16,7 +16,12 @@ if __name__ == "__main__":
     context = engine.rootContext()
 
     context.setContextProperty("ButtonController", button_controller)
-    engine.load(os.path.join(os.path.dirname(__file__) + os.sep + "resources" + os.sep + "layouts", "authorization.qml"))
+    engine.load(
+        os.path.join(
+            os.path.dirname(__file__) + os.sep + "resources" + os.sep + "layouts",
+            "authorization.qml",
+        )
+    )
 
     if not engine.rootObjects():
         sys.exit(-1)
@@ -24,5 +29,5 @@ if __name__ == "__main__":
 
 
 # TODO:
-# 1. Зробити перевірку залогованість користувача, і якщо користувач залогований то не 
+# 1. Зробити перевірку залогованість користувача, і якщо користувач залогований то не
 # завантажувати welcome.qml
